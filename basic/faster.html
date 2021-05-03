@@ -5,61 +5,21 @@
     <title>Who is Faster</title>
     <script src="../jquery/jquery-3.6.0.min.js"></script>
     <style>
-        input {background: transparent;font-family: ISOCPEUR;font-size: 56px;border: 0px;margin: 0px;padding: 0px;horiz-align: center}
-        input.rw {background-color: #fcf1ba;}
+        span {background: transparent;font-family: Verdana;font-size: 24px;border: 0px;margin: 0px;padding: 0px;horiz-align: center}
+        span.rw {background-color: #fcf1ba;}
         .err {background-color: #f58b60;}
         .ok {background-color: #abecbc;}
+        table {border-radius: 25px;padding: 10px;}
+        td {border:none;padding: 0px;margin: 0px}
+        .hidden {display:none}
     </style>
-<script>
-    var lastClick = new Date().getTime()
-    function getRandomInt(min,max) {
-        let number = Math.floor(Math.random() * max);
-        return number<min?min:number;
-    }
-
-    function resetQuestion(){
-        $('TABLE.ACTIVE .LHS').val(getRandomInt(2,10))
-        $('TABLE.ACTIVE .RHS').val(getRandomInt(2,20))
-        $('TABLE.ACTIVE .CORRECTION').val("")
-        $('TABLE.ACTIVE .TIMER').val("")
-        $('TABLE.ACTIVE .RESULT').val("").focus()
-    }
-
-    function submitAction(){
-        var currClick = new Date().getTime();
-        let timeTaken = Math.ceil((currClick - lastClick)/1000);
-        $('TABLE.ACTIVE .TIMER').val(timeTaken+' seconds')
-        lastClick=currClick
-        error = false;
-        var question=$('TABLE.ACTIVE .LHS').val()+" "+ $('TABLE.ACTIVE .OPERATOR').val()+" "+ $('TABLE.ACTIVE .RHS').val()
-        var answeVal = eval( question)
-        if( eval($('TABLE.ACTIVE .RESULT').val() == answeVal)){
-            $('TABLE.ACTIVE .CORRECTION').val("OK")
-            $('TABLE.REPORT .OK').val($('TABLE.REPORT .OK').val()/1+1)
-        }else{
-            error=true;
-            $('TABLE.ACTIVE .CORRECTION').val(answeVal)
-            $('TABLE.REPORT .ERR').val($('TABLE.REPORT .ERR').val()/1+1)
-        }
-        $('TABLE.REPORT .TOTAL').val($('TABLE.REPORT .TOTAL').val()/1+Math.floor(timeTaken))
-        $('TABLE.REPORT .AVG').val( ($('TABLE.REPORT .TOTAL').val()/1)/( $('TABLE.REPORT .ERR').val()/1 +  $('TABLE.REPORT .OK').val()/1))
-
-        var newReportRecord = $('TR.STAT'+(error?'-ERR':'-OK')).clone().insertAfter($('TR.STAT'+(error?'-ERR':'-OK') ))
-        $(newReportRecord).addClass(error?'err':'ok')
-        $(newReportRecord).removeClass('STAT'+(error?'-ERR':'-OK'))
-        $(newReportRecord).text(question+'='+answeVal)
-        resetQuestion();
-    }
-
-    $( document ).ready(function() {
-        resetQuestion()
-        $( "TABLE.ACTIVE .RESULT" ).on('keypress',function(e) {
-            if(e.which == 13) {
-                submitAction()
-            }
+    <script src="faster.js"></script>
+    <script>
+        $( document ).ready(function() {
+            resetQuestion();
+            attachEvents()
         })
-    })
-</script>
+    </script>
 </head>
 <body>
 <div>
@@ -67,39 +27,30 @@
         <table class="ACTIVE" border="2">
             <tr class="QUESTION">
                 <td>
-                    <span><input size="3" readonly class="LHS ro" ></span>
-                    <span><input size="1" readonly class="OPERATOR ro" value="*"></span>
-                    <span><input size="3" readonly class="RHS ro"></span>
-                    <span><input size="1" readonly class="ro" value="="></span>
+                    <span class="LHS ro" ></span>
+                    <span class="OPERATOR ro"></span>
+                    <span class="RHS ro"></span>
+                    <span class="ro">=</span>
                     <span><input class="RESULT rw"></span>
                 </td>
-                <td><input class="CORRECTION" readonly ro></td>
-                <td><input class="TIMER" readonly ro></td>
+                <td>
+                    <span class="CORRECTION hidden"></span>
+                </td>
+                <td>
+                    <span class="TIMER hidden"></span>
+                </td>
             </tr>
 
         </table>
         <table class="REPORT" border="2">
-	        <table border="2">
-				<tr class="STAT">
-					<td colspan="6">
-						<span>OK=<input size="3" readonly class="OK ro" value="0"></span>
-						<span>ERR=<input size="1" readonly class="ERR ro" value="0"></span>
-						<span>AVG TIME=<input size="3" readonly class="AVG ro" value="0"></span>
-						<span>TOTAL TIME=<input size="3" readonly class="TOTAL ro" value="0"></span>
-					</td>
-				</tr>
-			</table>
-	        <table border="2">
-				<tr class="STAT-ERR">
-					<td colspan="6">ERRORS</td>
-				</tr>
-			</table>
-	        <table border="2">
-				<tr class="STAT-OK">
-					<td colspan="6">OK</td>
-				</tr>
-			</table>
-
+            <tr class="STAT">
+                <td colspan="6">
+                    <span>OK=<input size="3" readonly class="OK ro" value="0"></span>
+                    <span>ERR=<input size="1" readonly class="ERR ro" value="0"></span>
+                    <span>AVG TIME=<input size="3" readonly class="AVG ro" value="0"></span>
+                    <span>TOTAL TIME=<input size="3" readonly class="TOTAL ro" value="0"></span>
+                </td>
+            </tr>
         </table>
     </span>
 </div>
