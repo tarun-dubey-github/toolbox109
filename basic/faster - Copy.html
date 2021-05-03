@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Who is Faster</title>
+    <script src="../jquery/jquery-3.6.0.min.js"></script>
+    <style>
+        .num {background: transparent;font-family: ISOCPEUR;font-size: 240px;border: 0px;margin: 0px;padding: 0px;horiz-align: center}
+        .num1 {background: transparent;font-family: ISOCPEUR;font-size: 36px;border: 0px;margin: 0px;padding: 0px;horiz-align: center}
+        .container {  display: flex; justify-content: center; align-items: center;height:600px;}
+        .panel {min-height:300px;min-width:850px;overflow:hidden;border:5px grey groove}
+        .ERR {color: red;}
+        .OK {color: green;}
+        body {min-width:1000px;min=height:1500px}
+        .footer {position: fixed; left: 0; bottom: 0; width: 100%; background-color: #f1c571; color: white; text-align: center;}
+        .report-rec{ width:250px;text-align:left}
+        .learn {width:100px;text-align:left;border:2px white groove;color:red;display:inline;margin:0px}
+
+    </style>
+    <script src="../jquery/jquery-3.6.0.min.js"></script>
+    <script src="./faster.js"></script>
+    <script>
+            $( document ).ready(function() {
+                resetQuestion();
+                attachEvents()
+            })
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="panel">
+        <div class="ACTIVE">
+            <div class="QUESTION">
+                <div>
+                    <span class="LHS ro num">7</span>
+                    <span class="OPERATOR ro num">x</span>
+                    <span class="RHS ro num">13</span>
+                    <span class="ro num">=</span>
+                    <span><input class="RESULT rw num" size="3" value="127" style="width:300px"></span>
+                    <span class="CORRECTION ro"></span>
+                    <span class="TIMER ro"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer num1">
+    <table class="REPORT" border="2" width="100%">
+        <tr class="STAT">
+            <td class="report-rec">
+                <div class="report-rec"><span class="OK ro">0</span></div>
+                <div class="report-rec"><span class="ERR ro">0</span></div>
+                <div class="report-rec"><span class="AVG ro">0.00</span>/<span class="TOTAL ro">000</span></div>
+            </td>
+            <td style="padding: 0px;margin: 0px;vertical-align: top;">
+                <div style="margin:0px;overflow:auto">
+                    <span class="learn" style="display:none">0x0=0</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
